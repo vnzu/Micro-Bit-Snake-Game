@@ -2,9 +2,9 @@
 
 MicroBit uBit;            // The MicroBit object
 
-const int MAX_LENGTH = 10; // The maximum length of the snake
+const int MAX_LENGTH = 15; // The maximum length of the snake
 const int MIN_LENGTH = 1; // The minimum length of the snake
-int current_length = 6; // The current (starting) length of the snake
+int current_length = 2; // The current (starting) length of the snake
 int sleep_period = 400;   // The initial sleep time
 
 // Create a structure for the coordinates of each pixel of the snake
@@ -82,19 +82,19 @@ void shrink_snake(int count = 1) {
             // Erase the tail
             if (snake[current_length].x >= 0 && snake[current_length].y >= 0 )
                 uBit.display.image.setPixelValue(snake[current_length].x, snake[current_length].y, 0);
-                uBit.sleep(sleep_period);
+            uBit.sleep(sleep_period);
         }
     }
 }
 
 // Call this when button A is pressed
 void onButtonAClick(MicroBitEvent e) {
-    grow_snake(2);
+    grow_snake();
 }
 
 // Call this when button B is pressed
 void onButtonBClick(MicroBitEvent e) {
-    shrink_snake(2);
+    shrink_snake();
 }
 
 int main()
