@@ -43,8 +43,9 @@ void move_snake(struct pixel new_head)
 {
     int i;
 
-    for (i = current_length; i > 0; i--)
+    for (i = current_length; i > 0; i--) {
         snake[i] = snake[i - 1];
+    }
 
     snake[0] = new_head;
 }
@@ -54,12 +55,14 @@ void move_snake(struct pixel new_head)
 void display_snake()
 {
     // Move the head forward
-    if (snake[0].x >=0 && snake[0].y >= 0)
+    if (snake[0].x >=0 && snake[0].y >= 0) {
         uBit.display.image.setPixelValue(snake[0].x, snake[0].y, 15);
+    }
 
     // Erase the tail
-    if (snake[current_length].x >= 0 && snake[current_length].y >= 0)
+    if (snake[current_length].x >= 0 && snake[current_length].y >= 0) {
         uBit.display.image.setPixelValue(snake[current_length].x, snake[current_length].y, 0);
+    }
 }
 
 // Grow the snake by 1 pixel
@@ -80,8 +83,9 @@ void shrink_snake(int count = 1) {
         if (current_length > MIN_LENGTH) {
             current_length--;
             // Erase the tail
-            if (snake[current_length].x >= 0 && snake[current_length].y >= 0 )
+            if (snake[current_length].x >= 0 && snake[current_length].y >= 0 ) {
                 uBit.display.image.setPixelValue(snake[current_length].x, snake[current_length].y, 0);
+            }
             uBit.sleep(sleep_period);
         }
     }
