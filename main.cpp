@@ -58,21 +58,25 @@ void display_snake()
         uBit.display.image.setPixelValue(snake[0].x, snake[0].y, 15);
 
     // Erase the tail
-    if (snake[current_length].x >= 0 && snake[current_length].y >= 0 )
+    if (snake[current_length].x >= 0 && snake[current_length].y >= 0)
         uBit.display.image.setPixelValue(snake[current_length].x, snake[current_length].y, 0);
 }
 
 void onButtonA(MicroBitEvent e) {
-    if (current_length < MAX_LENGTH)
+    if (current_length < MAX_LENGTH) {
         current_length++;
+        uBit.sleep(sleep_period);
+    }
 }
 
 void onButtonB(MicroBitEvent e) {
-    if (current_length > MIN_LENGTH)
+    if (current_length > MIN_LENGTH) {
         current_length--;
-    // Erase the tail
-    if (snake[current_length].x >= 0 && snake[current_length].y >= 0 )
-        uBit.display.image.setPixelValue(snake[current_length].x, snake[current_length].y, 0);
+        // Erase the tail
+        if (snake[current_length].x >= 0 && snake[current_length].y >= 0 )
+            uBit.display.image.setPixelValue(snake[current_length].x, snake[current_length].y, 0);
+            uBit.sleep(sleep_period);
+    }
 }
 
 int main()
