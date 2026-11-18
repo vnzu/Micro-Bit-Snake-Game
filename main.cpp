@@ -4,7 +4,7 @@ MicroBit uBit;            // The MicroBit object
 
 const int MAX_LENGTH = 10; // The maximum length of the snake
 const int MIN_LENGTH = 1; // The minimum length of the snake
-int current_length = 2; // The current (starting) length of the snake
+int current_length = 6; // The current (starting) length of the snake
 int sleep_period = 400;   // The initial sleep time
 
 // Create a structure for the coordinates of each pixel of the snake
@@ -62,21 +62,39 @@ void display_snake()
         uBit.display.image.setPixelValue(snake[current_length].x, snake[current_length].y, 0);
 }
 
-void onButtonA(MicroBitEvent e) {
-    if (current_length < MAX_LENGTH) {
-        current_length++;
-        uBit.sleep(sleep_period);
+// Grow the snake by 1 pixel
+void grow_snake(int count = 1) {
+    for (int i = 0; i < count; i++) {
+        // Ensure that the new current_length will not be higher than MAX_LENGTH
+        if (current_length < MAX_LENGTH) {
+            current_length++;
+            uBit.sleep(sleep_period);
+        }
     }
 }
 
-void onButtonB(MicroBitEvent e) {
-    if (current_length > MIN_LENGTH) {
-        current_length--;
-        // Erase the tail
-        if (snake[current_length].x >= 0 && snake[current_length].y >= 0 )
-            uBit.display.image.setPixelValue(snake[current_length].x, snake[current_length].y, 0);
-            uBit.sleep(sleep_period);
+// Shrink the snake by 1 pixel
+void shrink_snake(int count = 1) {
+    for (int i = 0; i < count; i++) {
+        // Ensure that the new current_length will not be lower than MIN_LENGTH
+        if (current_length > MIN_LENGTH) {
+            current_length--;
+            // Erase the tail
+            if (snake[current_length].x >= 0 && snake[current_length].y >= 0 )
+                uBit.display.image.setPixelValue(snake[current_length].x, snake[current_length].y, 0);
+                uBit.sleep(sleep_period);
+        }
     }
+}
+
+// Call this when button A is pressed
+void onButtonAClick(MicroBitEvent e) {
+    grow_snake(2);
+}
+
+// Call this when button B is pressed
+void onButtonBClick(MicroBitEvent e) {
+    shrink_snake(2);
 }
 
 int main()
@@ -95,8 +113,8 @@ int main()
     // Reveal the head of the snake at the top-left corner of the 5x5 display
     initialize_snake(snake_head);
     // listeners
-    uBit.messageBus.listen(MICROBIT_ID_BUTTON_A, MICROBIT_BUTTON_EVT_CLICK, onButtonA);
-    uBit.messageBus.listen(MICROBIT_ID_BUTTON_B, MICROBIT_BUTTON_EVT_CLICK, onButtonB);
+    uBit.messageBus.listen(MICROBIT_ID_BUTTON_A, MICROBIT_BUTTON_EVT_CLICK, onButtonAClick);
+    uBit.messageBus.listen(MICROBIT_ID_BUTTON_B, MICROBIT_BUTTON_EVT_CLICK, onButtonBClick);
 
     while (1)
     {
