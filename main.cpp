@@ -67,7 +67,8 @@ void onButtonA(MicroBitEvent e) {
 }
 
 void onButtonB(MicroBitEvent e) {
-    current_length--;
+    if (current_length > 1)
+        current_length--;
     // Erase the tail
     if (snake[current_length].x >= 0 && snake[current_length].y >= 0 )
         uBit.display.image.setPixelValue(snake[current_length].x, snake[current_length].y, 0);
